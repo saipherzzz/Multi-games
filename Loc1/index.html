@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>	Fruit Ninja Reference</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<style type="text/css">
+		.sphere {
+			background: none;
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			border-radius: 0px;
+			transition: all 0.8s ease-out;
+			top: -150px;
+		}
+		.ground {
+			background: green;
+			position: absolute;
+			width: 1600px;
+			height: 50px;
+			top:  1400px;
+			left: 0px;
+			display: block;
+		}
+		.fortexts{
+			position: absolute;
+			left: 1610px;
+			top: 15px;
+			display: block;
+			color: #730206;
+		}
+		.winner{
+			position: absolute;
+			display: none;
+			left: 875px;
+			top: 405px;
+			color: #730206;
+		}
+		.defeat{
+			position: absolute;
+			display: none;
+			left: 850px;
+			top: 405px;
+			color: #730206;
+		}
+		.forbtn{
+			display: none;
+			position: absolute;
+			border: bold;
+      		border-color: white;
+      		border-width: 2px;
+      		left: 885px;
+			top: 475px;
+			background-color: #730206;
+		}
+		.forbtnsecond{
+			display: none;
+			position: absolute;
+			border: bold;
+      		border-color: white;
+      		border-width: 2px;
+      		left: 885px;
+			top: 475px;
+			background-color: #730206;
+		}
+		body{
+			background-image: url(background.jpg);
+			background-size: cover;
+		}
+	</style>
+</head>
+<body>
+<h1 class="fortexts">Ваши очки:<span class="score">0</span></h1>
+<h1 class="winner">Победа!</h1>
+<h1 class="defeat">Проигрыш!</h1>
+<button class="btn forbtn"onclick="self.close()">Закрыть игру</button>
+<button class="btn forbtnsecond"onclick="location.reload()">Повторить игру</button>
+<div class="ground">
+	
+</div>
+<script type="text/javascript">
+	let topsphr = 1500;
+	let id = 0;
+	let score = 0;
+	let score_type = document.querySelector('.score')
+	let lg = document.querySelector('.ground')
+	let win = document.querySelector('.winner')
+	let lose = document.querySelector('.defeat')
+	let txtD = document.querySelector(".fortexts")
+	let btnD = document.querySelector('.forbtn')
+	let btnD2 = document.querySelector('.forbtnsecond')
+
+
+	let randomizer = function(arg){
+		let random = Math.random() * arg;
+		let round = Math.round(random);
+		return round
+	}
+
+
+	for(let i=0;i<16;i=i+1){
+		let box = document.createElement("div")
+		document.body.appendChild(box);
+		box.classList.add("sphere")
+		box.style.left = randomizer(1500) + "px"
+		box.style.backgroundImage = "url(apples.png)"
+		box.style.backgroundSize = "100% 100%"
+	}
+
+
+	let sphery = document.querySelectorAll(".sphere")
+
+
+	for(let i=0;i<sphery.length;i=i+1){
+		sphery[i].onclick = function(){
+			sphery[i].style.display = "none"
+			topsphr = 1400;
+			score = score + 1 
+			score_type.innerHTML = score
+		}
+	}
+	
+
+
+	let changeTop = function(){
+		topsphr = topsphr + 150;
+		sphery[id].style.top = topsphr + "px"
+
+		if(topsphr>=1500){
+			topsphr = 0;
+			sphery[id].style.display = "none"
+			id = id + 1
+			if (id==16) {
+				STOPIT()
+			}
+		}
+	}
+
+	let krutibaraban = setInterval(changeTop,300)
+
+	let STOPIT = function(){
+		clearInterval(krutibaraban)
+		if(score==15){
+			win.style.display = "block";
+			txtD.style.display = "none";
+			btnD.style.display = "block";
+		}
+		if(score<15){		
+			lose.style.display = "block";
+			txtD.style.display = "none";
+			btnD2.style.display = "block"
+		}
+	}
+</script>
+</body>
+</html>
